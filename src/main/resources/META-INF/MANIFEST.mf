@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Tapestry-Module-Classes: net.netzgut.integral.tfa.modules.TwoFactorAut
+ hModule
+Created-By: Apache Maven 3.3.9
+Build-Jdk: 1.8.0_101
