@@ -1,0 +1,14 @@
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+    <t:if test="valid">
+        <img
+            t:id="any"
+            t:type="any"
+            src="${dataURI}"
+            class="integral-tfa-qrcode"
+            width="${size}"
+            height="${size}"></img>
+        <p:else>
+            <t:body />
+        </p:else>
+     </t:if>
+</t:container>
