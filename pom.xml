@@ -43,12 +43,6 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>com.google.zxing</groupId>
-      <artifactId>javase</artifactId>
-      <version>3.3.0</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-all</artifactId>
       <version>2.4.7</version>
@@ -75,18 +69,6 @@
         <artifactId>maven-surfire-plugin</artifactId>
         <version>2.19.1</version>
         <configuration/>
-      </plugin>
-      <plugin>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <version>null</version>
-        <configuration>
-          <systemProperties>
-            <systemProperty>
-              <name>tapestry.execution-mode</name>
-              <value>development</value>
-            </systemProperty>
-          </systemProperties>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
