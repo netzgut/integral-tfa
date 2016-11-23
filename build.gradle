@@ -6,18 +6,17 @@ apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
+
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
 
-repositories {
-    mavenCentral()
-}
+buildscript { repositories { mavenCentral()
+    } }
+
+
+repositories { mavenCentral() }
+
 
 project.ext.versions = [
     log4j: '1.2.17',
@@ -27,7 +26,9 @@ project.ext.versions = [
     spock: '1.0-groovy-2.4'
 ]
 
+
 project.ext.moduleClasses = 'net.netzgut.integral.tfa.modules.TwoFactorAuthModule'
+
 
 dependencies {
 
@@ -40,66 +41,56 @@ dependencies {
     testCompile "org.spockframework:spock-core:${versions.spock}"
 }
 
+
 jar {
     manifest { attributes 'Tapestry-Module-Classes': moduleClasses }
 }
 
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.1'
-}
+task wrapper(type: Wrapper) { gradleVersion = '3.2' }
 
 
-task pom << {
-    pom {
-        packaging = 'jar'
-        project {
-            inceptionYear '2016'
-            name rootProject.name
-            description 'A TOPT TwoFactor Auth helper'
-            url 'https://github.com/netzgut/integral-tfa'
-            properties {
-                'project.build.sourceEncoding' 'UTF-8'
-            }
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
+task pom {
+    doLast {
+        pom {
+            packaging = 'jar'
+            project {
+                inceptionYear '2016'
+                name rootProject.name
+                description 'A TOPT TwoFactor Auth helper'
+                url 'https://github.com/netzgut/integral-tfa'
+                properties { 'project.build.sourceEncoding' 'UTF-8' }
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+                scm {
+                    url 'https://github.com/netzgut/integral-tfa'
+                    connection 'scm:git:git://github.com/netzgut/integral-tfa.git'
+                    developerConnection 'scm:git:git@github.com:netzgut/integral-tfa.git'
                 }
             }
-            scm {
-                url 'https://github.com/netzgut/integral-tfa'
-                connection 'scm:git:git://github.com/netzgut/integral-tfa.git'
-                developerConnection 'scm:git:git@github.com:netzgut/integral-tfa.git'
-            }
-        }
-    }.withXml { xmlProvider ->
-        def plugins = xmlProvider.asNode().appendNode('build').appendNode('plugins')
-        def mavenCompilerPlugin = plugins.appendNode('plugin')
-        mavenCompilerPlugin.appendNode('artifactId').value = 'maven-compiler-plugin'
-        mavenCompilerPlugin.appendNode('version').value = '3.1'
-        def mavenCompilerPluginConfiguration = mavenCompilerPlugin.appendNode('configuration')
-        mavenCompilerPluginConfiguration.appendNode('source').value = sourceCompatibility
-        mavenCompilerPluginConfiguration.appendNode('target').value = targetCompatibility
+        }.withXml { xmlProvider ->
+            def plugins = xmlProvider.asNode().appendNode('build').appendNode('plugins')
+            def mavenCompilerPlugin = plugins.appendNode('plugin')
+            mavenCompilerPlugin.appendNode('artifactId').value = 'maven-compiler-plugin'
+            mavenCompilerPlugin.appendNode('version').value = '3.1'
+            def mavenCompilerPluginConfiguration = mavenCompilerPlugin.appendNode('configuration')
+            mavenCompilerPluginConfiguration.appendNode('source').value = sourceCompatibility
+            mavenCompilerPluginConfiguration.appendNode('target').value = targetCompatibility
 
-        def mavenSurefirePlugin = plugins.appendNode('plugin')
-        mavenSurefirePlugin.appendNode('artifactId').value = 'maven-surfire-plugin'
-        mavenSurefirePlugin.appendNode('version').value = '2.19.1'
-        mavenSurefirePlugin.appendNode('configuration')
+            def mavenSurefirePlugin = plugins.appendNode('plugin')
+            mavenSurefirePlugin.appendNode('artifactId').value = 'maven-surfire-plugin'
+            mavenSurefirePlugin.appendNode('version').value = '2.19.1'
+            mavenSurefirePlugin.appendNode('configuration')
 
-        def jettyMavenPlugin = plugins.appendNode('plugin')
-        jettyMavenPlugin.appendNode('artifactId').value = 'jetty-maven-plugin'
-        jettyMavenPlugin.appendNode('version').value = versions.jetty
-        def jettyMavenPluginConfiguration = jettyMavenPlugin.appendNode('configuration')
-        def jettyMavenPluginSystemProperty = jettyMavenPluginConfiguration.appendNode('systemProperties').appendNode('systemProperty')
-        jettyMavenPluginSystemProperty.appendNode('name').value = 'tapestry.execution-mode'
-        jettyMavenPluginSystemProperty.appendNode('value').value = 'development'
-
-        def mavenJarPlugin = plugins.appendNode('plugin')
-        mavenJarPlugin.appendNode('artifactId').value = 'maven-jar-plugin'
-        def mavenJarPluginConfigurationManifest = mavenJarPlugin.appendNode('configuration').appendNode('archive').appendNode('manifestEntries')
-        mavenJarPluginConfigurationManifest.appendNode('Tapestry-Module-Classes').value = moduleClasses
-
-    }.writeTo("pom.xml")
+            def mavenJarPlugin = plugins.appendNode('plugin')
+            mavenJarPlugin.appendNode('artifactId').value = 'maven-jar-plugin'
+            def mavenJarPluginConfigurationManifest = mavenJarPlugin.appendNode('configuration').appendNode('archive').appendNode('manifestEntries')
+            mavenJarPluginConfigurationManifest.appendNode('Tapestry-Module-Classes').value = moduleClasses
+        }.writeTo("pom.xml")
+    }
 }
