@@ -1,8 +1,10 @@
+package net.netzgut.integral.tests.tfa
 
 import net.netzgut.integral.tfa.TwoFactorAuthServiceImplementation
 import spock.lang.Specification
 
-class TestSpec extends Specification {
+
+class TwoFactorAuthServiceImplementationTests extends Specification {
 
     def setupSpec() {
     }
@@ -13,7 +15,7 @@ class TestSpec extends Specification {
         def label = "My Label"
         def algorithm = "HmacSHA1"
         def timeStep = 30
-        def issuer = "TestIssuer"
+        def issuer = "Test Issuer"
         def codeAgeOffset = 1
         def authService = new TwoFactorAuthServiceImplementation(algorithm, timeStep, issuer, codeAgeOffset)
         def secret = authService.generateSecret()
